@@ -1,97 +1,282 @@
 <?php
 
-/*
-    Домашнее задание №2. Действия с данными. Руслан Пека
+/* Домашнее задание №5. Руслан Пека */
+
+// Вспомогательная функция
+function export($var)
+{
+    echo '<pre>';
+    print_r($var);
+    echo '</pre>';
+}
+
+/* 
+    Задание №1
+    (+) Создать родительский (главный класс)
+    (+) Класс должен содержать 2 свойства
+    (+) Каждое свойство должно иметь геттеры и сеттеры 
 */
 
-// === 1. Действия с числами ===
-echo '<h1>1. Действия с числами</h1>';
+class Main
+{
+    private $one = 1;
+    private $two = 2;
 
-// 1.1. Получение остатка от деления 7 на 3:
-$num1 = 7;
-$num2 = 3;
-$result = $num1 % $num2;  // Получение остатка от деления
-echo '1.1. Остаток от деления числа ' .$num1 . ' на число ' . $num2 . ' равен: <b>' . $result . '</b><br><br>';
+    public function getOne()
+    {
+        return $this -> one;
+    }
 
-// 1.2. Получение целой части сложения 7 и 7.15:
-$num1 = 7;
-$num2 = 7.15;
-$result = round($num1 + $num2);   // Получение целой части сложения
-echo '1.2. Целая часть сложения числа ' . $num1 . ' и числа ' . $num2 . ' равняется: <b>' . $result . '</b><br><br>';
+    public function getTwo()
+    {
+        return $this -> two;
+    }
 
-// 1.3. Получение корня из 25:
-$num = 25;
-$result = sqrt($num);   // Использование функции вычисления квадратного корня
-echo "1.3. Корень квадратный числа $num равен: <b>$result</b><br><br>";   // Вариант вывода в двойных кавычках для разнообразия
+    public function setOne($value)
+    {
+        $this -> one = $value;
+    }
 
-// === 2. Действия со строками ===
-echo '<h1>2. Действия со строками</h1>';
-
-// 2.1. Получить 4-е слово из фразы - Десять негритят пошли купаться в море
-$str = "Десять негритят пошли купаться в море";
-$str_array = mb_split(" ", $str);    // ОБНОВЛЕНО (5)
-echo '2.1. 4-е слово фразы: <b>' . $str_array[3] . '</b><br><br>';     // Вывод 4-го элемента массива (т.к. нумерация начинается с нуля)
-
-// 2.2. Получить 17-й символ из фразы - Десять негритят пошли купаться в море
-$str = "Десять негритят пошли купаться в море";
-$str_array = mb_str_split($str);    // ОБНОВЛЕНО (3)
-echo '2.2. 17-й символ из фразы: <b>' . $str_array[16] . '</b><br><br>';    // Сработало корректно, выводит 17-й символ "п"
-
-// 2.3. Сделать заглавной первую букву во всех словах фразы - Десять негритят пошли купаться в море
-$str = "Десять негритят пошли купаться в море"; // ОБНОВЛЕНО (4)
-$str = mb_convert_case($str, MB_CASE_TITLE, "UTF-8");
-echo '2.3. Загравные буквы во всех словах: <b>' . $str . '</b><br><br>';    // Сработало корректно: Десять Негритят Пошли Купаться В Море
-
-// 2.4. Посчитать длину строки - Десять негритят пошли купаться в море
-$str = "Десять негритят пошли купаться в море";
-$result1 = mb_strlen($str);     // ОБНОВЛЕНО (1)
-
-// === 3. Действия с логическими значениями ===
-echo '<h1>3. Действия с логическими значениями</h1>';
-
-// 3.1. Правильно ли утверждение true равно 1
-echo '3.1. Проверка утверждения, что true равно 1:<br>';
-if(true == 1) {
-    echo "Правильно, что <b>true равно 1</b>.";    // Получаем этот ответ - правильно!
-} else {
-    echo "Неправильно. <b>true не равно 1</b>.";
-}
-echo '<br><br>';
-
-// 3.2. Правильно ли утверждение false тождественно 0
-echo '3.2. Проверка утверждения, что false тождественно 0:<br>';
-if(false === 0) {
-    echo "Правильно, что <b>false тождественно 0</b>.";
-} else {
-    echo "Неправильно. <b>false не тождественно 0</b>.";    // Получаем этот ответ - НЕправильно!
-}
-echo '<br><br>';
-
-// 3.3. Какая строка длиннее three - три
-// ОБНОВЛЕНО (2)
-$str1 = "three";
-$str2 = "три";
-$len1 = mb_strlen($str1);
-$len2 = mb_strlen($str2);
-if($len1 > $len2) {
-    echo 'Строка <b>' . $str1 . '</b> длиннее строки <b>' . $str2 . '</b>.';    // Получаем этот ответ: 'three' длиннее, чем 'три'!
-} elseif ($len1 < $len2) {
-    echo 'Строка <b>' . $str2 . '</b> длиннее строки <b>' . $str1 . '<b>.';
-} else {
-    echo 'Строки <b>' . $str1 . '</b> и <b>' . $str2 . '</b> равны.';
-}
-echo '<br><br>';
-
-// 3.4. Какое число больше 125 умножить на 13 плюс 7 или 223 плюс 28 умножить 2
-// Примечание (!) В задании нет указания на использование скобок, поэтому числа вводились "как есть".
-$num1 = 125 * 13 + 7;
-$num2 = 223 + 28 * 2;
-if($num1 > $num2) {
-    echo 'Число <b>125 * 13 + 7</b> больше числа <b>223 + 28 * 2</b>.';    // Получаем этот ответ: число 125 * 13 + 7 - больше!
-} elseif ($num1 < $num2) {
-    echo 'Число <b>223 + 28 * 2</b> больше числа <b>125 * 13 + 7<b>.';
-} else {
-    echo 'Числа <b>125 * 13 + 7</b> и <b>223 + 28 * 2</b> равны.';
+    public function setTwo($value)
+    {
+        $this -> two = $value;
+    }
 }
 
-/* Конец домашнего задания №2 */
+// Вывод результатов задания №1
+echo '<b>Задание №1</b><br>';
+
+// Проверка работы геттеров
+$main = new Main;
+export($main);
+export($main -> getOne());  // Выводит: 1
+export($main -> getTwo());  // Выводит: 2
+
+// Проверка работы сеттеров
+$mainTest = new Main;
+$mainTest -> setOne(10);
+$mainTest -> setTwo(20);
+export($mainTest -> getOne());  // Выводит: 10
+export($mainTest -> getTwo());  // Выводит: 20
+
+/* 
+    2) Создать 3 наследника родительского класса
+    (+) Каждый наследник должен содержать одно свойство
+    (+) Каждое свойство должно иметь геттер и сеттер
+    (+) Наследники должны реализовать по одному методу который выполняет одно математическое действие с данными родителя и своими данными
+    (+) Один наследник не должен быть наследуемым
+    (+) Один из наследников должен содержать абстрактную функцию возведения в степень
+*/
+
+// Всего - 3 наследника 1-го уровня
+// 1-й наследник 1-го уровня
+class HeirOne extends Main
+{
+    private $propertyOne = 10;
+
+    public function getPrOne()
+    {
+        return $this -> propertyOne;
+    }
+
+    public function setPrOne($val1)
+    {
+        $this -> propertyOne = $val1;
+    }
+
+    public function sumOne()
+    {
+        return ($this -> getOne() + $this -> getPrOne());
+    }
+}
+
+// 2-й наследник 1-го уровня    (содержит абстрактную функцию возведения в степень - она будет описана в классе-наследнике 2-го уровня)
+abstract class HeirTwo extends Main
+{
+    private $propertyTwo = 20;
+
+    public function getPrTwo()
+    {
+        return $this -> propertyTwo;
+    }
+
+    public function setPrTwo($val2)
+    {
+        $this -> propertyTwo = $val2;
+    }
+
+    public function divTwo()
+    {
+        return ($this -> getPrTwo() / $this -> getTwo());
+    }
+
+    abstract public function powTwo();
+}
+
+// 3-й наследник 1-го уровня    (не наследуется)
+final class HeirThree extends Main
+{
+    private $propertyThree = 30;
+
+    public function getPrThree()
+    {
+        return $this -> propertyThree;
+    }
+
+    public function setPrThree($val3)
+    {
+        $this -> propertyThree = $val3;
+    }
+
+    public function multThree()
+    {
+        return ($this -> getTwo() * $this -> getPrThree());
+    }
+}
+
+// Вывод результатов задания №2
+echo '<b>Задание №2</b><br>';
+$prOne = new HeirOne;
+export($prOne -> sumOne());         // Выводит: 11          (Верно, т.к. 1 + 10 = 11)
+$prThree = new HeirThree;
+export($prThree -> multThree());    // Выводит: 60          (Верно, 2 * 30 = 60)
+
+/*
+    3) Создать по 2 наследника от наследников первого уровня
+    (+) Каждое свойство должно иметь геттер и сеттер
+    (+) Наследники должны реализовать по одному методу который выполняет одно математическое действие с данными родителя и своими данными
+    (+) И по одному методу который выполняет любое математическое действие со свойством корневого класса и своим свойством
+    (+) В случае если реализован наследник класса содержащего абстрактную функцию то класс должен содержать реализацию абстракции
+*/
+
+// ПРИМЕЧАНИЕ. Т.к. один из наследников 1-го уровня - ненаследуемый, получим всего 4 метода наследника 2-го уровня
+
+class A1 extends HeirOne
+{
+    private $a1 = 5;
+
+    public function getA1()
+    {
+        return $this -> a1;
+    }
+
+    public function setA1($val)
+    {
+        $this -> a1 = $val;
+    }
+
+    public function mathA1()
+    {
+        return (($this -> getPrOne() * $this -> getA1()) / 12);
+    }
+
+    public function mathRelA1()
+    {
+        return (9 + $this -> getA1() - $this -> getOne());
+    }
+}
+
+class A2 extends HeirOne
+{
+    private $a2 = 15;
+
+    public function getA2()
+    {
+        return $this -> a2;
+    }
+
+    public function setA2($val)
+    {
+        $this -> a2 = $val;
+    }
+
+    public function mathA2()
+    {
+        return (($this -> getPrOne() / $this -> getA2()) * 4);
+    }
+
+    public function mathRelA2()
+    {
+        return ($this -> getA2() * $this -> getOne());
+    }
+}
+
+class B1 extends HeirTwo
+{
+    private $b1 = 25;
+
+    public function getB1()
+    {
+        return $this -> b1;
+    }
+
+    public function setB1($val)
+    {
+        $this -> b1 = $val;
+    }
+
+    public function mathB1()
+    {
+        return (($this -> getPrTwo() + $this -> getB1()) ** 2);
+    }
+
+    public function mathRelB1()
+    {
+        return (14 * ($this -> getB1() + $this -> getTwo()));
+    }
+
+    public function powTwo()
+    {
+        return ($this -> getPrTwo() ** $this -> getTwo());
+    }
+}
+
+class B2 extends HeirTwo
+{
+    private $b2 = 35;
+
+    public function getB2()
+    {
+        return $this -> b2;
+    }
+
+    public function setB2($val)
+    {
+        $this -> b2 = $val;
+    }
+
+    public function mathB2()
+    {
+        return (($this -> getPrTwo() - $this -> getB2()) + 40);
+    }
+
+    public function mathRelB2()
+    {
+        return (1 + $this -> getB2() * $this -> getTwo());
+    }
+
+    public function powTwo()
+    {
+        return ($this -> getPrTwo() ** $this -> getTwo());
+    }
+}
+
+// Вывод результатов задания №2
+echo '<b>Задание №3</b><br>';
+$a1 = new A1;
+$a2 = new A2;
+$b1 = new B1;
+$b2 = new B2;
+export($a1 -> mathA1());        // Выводит: 4,1(6)  (Верно, т.к. (10 * 5) / 12 = 4,1(6))
+export($a1 -> mathRelA1());     // Выводит: 13      (Верно, т.к. 9 + 5 - 1 = 13)
+export($a2 -> mathA2());        // Выводит: 2,(6)   (Верно: т.к. 10 / 15 * 4 = 2,(6))
+export($a2 -> mathRelA2());     // Выводит: 15      (Верно, т.к. 1 * 15 = 15)
+export($b1 -> mathB1());        // Выводит: 2025    (Верно, т.к. (20 + 25)^2 = 2025)
+export($b1 -> mathRelB1());     // Выводит: 387     (Верно, т.к. 14 * (25 + 2) = 387)
+export($b2 -> mathB2());        // Выводит: 25      (Верно, т.к. 20 - 35 + 40 = 25)
+export($b2 -> mathRelB2());     // Выводит: 71      (Верно, т.к. 1 + (32 * 2) = 71)
+
+// Проверка работоспособности абстрактного метода
+export($b1 -> powTwo());        // Выводит: 400     (Верно, т.к. 20^2 = 400)
+
+?>
